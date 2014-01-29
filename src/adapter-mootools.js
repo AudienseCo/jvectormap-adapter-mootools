@@ -23,11 +23,11 @@ jvm.adapter.mootools = function(){
       //Else if it's a getter it'll only affect to the first element
       ['css','data','text','html','width','height'].each(function(method){
         this[method] = function(key, value){
-          if(value || typeOf(key) === 'object'){
+          if(arguments.length){
             this.invoke(method, arguments)
             return this;
           }else{
-            return this[0][method].apply(this[0], arguments)
+            return this[0][method].apply(this[0])
           }
         }
       }, this);
@@ -35,7 +35,7 @@ jvm.adapter.mootools = function(){
       //Setter methods forwarded directly to the MootoolsElementAdapter
       //They only affect to the first child
       ['addClass', 'appendChild', 'mousemove','mousedown','mouseup','mousewheel',
-       'delegate','addEvent','click','trigger','show','hide','is'].each(function(method){
+       'delegate','addEvent','click','trigger','show','hide','is','bind'].each(function(method){
         this[method] = function(value){
           this[0][method].apply(this[0], arguments)
           return this;
@@ -374,7 +374,7 @@ jvm.adapter.mootools = function(){
         this.el.set('html', value);
         return this;
       }else{
-        this.el.get('html');
+        return this.el.get('html');
       }
     },
 
